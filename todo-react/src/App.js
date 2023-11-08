@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 
 import "./App.css";
+import Dashboard from "./pages/Dashboard/Index";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -19,8 +20,8 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "about",
-    element: <div>About</div>,
+    path: "Todo",
+    element: <Dashboard />,
   },
 ]);
 
