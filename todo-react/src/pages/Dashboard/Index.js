@@ -5,31 +5,55 @@ import Button from "../../component/Button/Index";
 const Dashboard = () => {
   const arr = [
     {
+      id: 1,
       title: "Intro to css",
       author: "Ali",
     },
     {
+      id: 2,
       title: "Intro to css, Hello What we do? Hello What we do? ",
       author: "Adam",
     },
   ];
   const [items, setItems] = useState(arr);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [title, setTitile] = useState("");
+  const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const handleClick = (e) => {
     e.preventDefault();
     let obj = {
-      title: e.target["author"].value,
-      author: e.target["title"].value,
+      id: items.length + 1,
+      title: title,
+      author: author,
     };
+
     if (e.target["author"].value === "" || e.target["title"].value === "") {
       alert("Please Enter Values");
     } else {
       items.push(obj);
       setItems([...items]);
       setIsModalOpen(false);
+      reset();
     }
+  };
+  const handleEdit = (id) => {
+    const find = items.find((item) => item.id === id);
+    console.log("Find==> ", find);
+    setTitle(find.title);
+    setAuthor(find.author);
+    setIsModalOpen(true);
+  };
+  const reset = () => {
+    setAuthor("");
+    setAuthor("");
+  };
+  const handleModalClose = () => {
+    setIsModalOpen();
+    reset();
+  };
+  const handleDelete = (id) => {
+    const filter = items.filter((item) => item.id !== id);
+    setItems(filter);
   };
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -58,16 +82,17 @@ const Dashboard = () => {
                 </td>
                 <td className="border border-gray-500 px-4 py-2 text-gray-600 font-medium">
                   <div className="flex justify-center item-center">
-                    <Input
+                    <Button
                       type="submit"
                       value="Edit"
+                      onClick={() => handleEdit(item.id)}
                       className="p-4 bg-blue-700 text-white font-bold rounded-lg m-3   cursor-pointer"
                     />
                     <Button
                       value="Delete"
                       className="p-4 bg-red-700 text-white font-bold rounded-lg m-3  cursor-pointer "
                       onClick={() => {
-                        setIsModalOpen(false);
+                        handleDelete(item.id);
                       }}
                     />
                   </div>
@@ -78,11 +103,11 @@ const Dashboard = () => {
         </table>
       </div>
       <CreateModal
-        setIsModalOpen={setIsModalOpen}
+        handleModalClose={handleModalClose}
         isModalOpen={isModalOpen}
         handleClick={handleClick}
         title={title}
-        setTitile={setTitile}
+        setTitle={setTitle}
         author={author}
         setAuthor={setAuthor}
       />
@@ -94,10 +119,10 @@ export default Dashboard;
 
 function CreateModal({
   isModalOpen,
-  setIsModalOpen,
+  handleModalClose,
   handleClick,
   title,
-  setTitile,
+  setTitle,
   author,
   setAuthor,
 }) {
@@ -112,9 +137,7 @@ function CreateModal({
       <div className="relative w-full max-w-md max-h-full">
         <div className="relative bg-gray-300 rounded-lg shadow ">
           <button
-            onClick={() => {
-              setIsModalOpen(false);
-            }}
+            onClick={handleModalClose}
             type="button"
             className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
             data-modal-hide="authentication-modal"
@@ -143,10 +166,10 @@ function CreateModal({
                   labelClassName="font-bold text-orang-500"
                   label="Title"
                   name="title"
-                  // value={title}
+                  value={title}
                   id="title"
                   onChange={(e) => {
-                    console.log(e.target.value);
+                    setTitle(e.target.value);
                   }}
                   className="w-full  text-blue-700 bg-white hover:bg-white-800 focus:ring-4 focus:outline-none focus:ring-white-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-white-600 dark:hover:bg-white-700 dark:focus:ring-white-800"
                 />
@@ -155,14 +178,14 @@ function CreateModal({
                 <Input
                   labelClassName="font-bold text-orang-500"
                   label="Author"
-                  // value={author}
+                  value={author}
                   name="author"
                   id="author"
-                  onChange={(e) => console.log(e.target.value)}
+                  onChange={(e) => setAuthor(e.target.value)}
                   className="w-full text-blue-700 bg-white hover:bg-white-800 focus:ring-4 focus:outline-none focus:ring-white-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-white-600 dark:hover:bg-white-700 dark:focus:ring-white-800"
                 />
                 <div className="flex justify-center item-center">
-                  <Input
+                  <Button
                     type="submit"
                     value="Add"
                     className="p-4 bg-blue-700 text-white font-bold rounded-lg m-3 w-1/3   cursor-pointer"
@@ -170,9 +193,7 @@ function CreateModal({
                   <Button
                     value="Cancel"
                     className="p-4 bg-red-700 text-white font-bold rounded-lg m-3 w-1/3 cursor-pointer "
-                    onClick={() => {
-                      setIsModalOpen(false);
-                    }}
+                    onClick={handleModalClose}
                   />
                 </div>
               </div>
