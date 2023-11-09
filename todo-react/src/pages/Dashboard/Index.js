@@ -6,13 +6,13 @@ const Dashboard = () => {
   const arr = [
     {
       id: 1,
-      title: "Intro to css",
-      author: "Ali",
+      title: "Ali",
+      author: "ali@gmail.com",
     },
     {
       id: 2,
-      title: "Intro to css, Hello What we do? Hello What we do? ",
-      author: "Adam",
+      title: "Dawood ",
+      author: "dawood@gmail.com",
     },
   ];
   const [items, setItems] = useState(arr);
@@ -164,7 +164,7 @@ function CreateModal({
               <div className="mb-6">
                 <Input
                   labelClassName="font-bold text-orang-500"
-                  label="Title"
+                  label="Name"
                   name="title"
                   value={title}
                   id="title"
@@ -177,7 +177,7 @@ function CreateModal({
               <div className="mb-6">
                 <Input
                   labelClassName="font-bold text-orang-500"
-                  label="Author"
+                  label="Email"
                   value={author}
                   name="author"
                   id="author"
